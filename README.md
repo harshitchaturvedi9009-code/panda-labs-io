@@ -1,4 +1,4 @@
-# 🐼 Sorting Panda – Full-Stack DSA Lab Backend
+# 🐼 Sorting Panda – Full-Stack DSA Lab Backend https://panda-labs-io.netlify.app/
 
 A high-performance Node.js REST API backend powering the **Sorting Panda & DSA Lab** interactive visualization app.
 
@@ -8,17 +8,10 @@ Built with clean, modular architecture and **zero required external dependencies
 
 ## 🚀 Quick Start
 
-### 1. Start the Backend Server
-```bash
-# In C:\Users\harsh\.gemini\antigravity\scratch\sorting-panda-backend
-node src/server.js
-# Or via npm
-npm start
-```
-The server will start at:
-- **Web App & UI**: [http://localhost:3000](http://localhost:3000)
-- **API Documentation**: [http://localhost:3000/api/docs](http://localhost:3000/api/docs)
-- **Health Check**: [http://localhost:3000/api/health](http://localhost:3000/api/health)
+The website will start at:
+- **Web App & UI**: https://panda-labs-io.netlify.app/
+- **API Documentation**: https://panda-labs-io.netlify.app/
+- **Health Check**: https://panda-labs-io.netlify.app/
 
 ### 2. Run Test Suite
 ```bash
