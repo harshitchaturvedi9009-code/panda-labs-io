@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorting Panda – DSA Lab (Full-Stack)</title>
+<style>
+:root{color-scheme:light dark;--bg:#eef1ea;--surface:#fff;--ink:#1b1e19;--muted:#556050;--line:#d3dacb;--bamboo:#78a24f;--deep:#3a6633;--soft:#e1ecd2;--on-deep:#fff;--bar:#a3c576;--cmp:#1b1e19;--swap:#e0a032;--pivot:#c4553b;--sorted:#2f6a3a;--code:#f6f8f2;--hl:#fff1c9;--font:ui-rounded,"SF Pro Rounded","Quicksand","Nunito","Trebuchet MS",system-ui,sans-serif;--mono:ui-monospace,Menlo,Consolas,monospace;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10130d;--surface:#1a1e15;--ink:#edf1e6;--muted:#a0aa97;--line:#2d3427;--bamboo:#93c266;--deep:#6fae5d;--soft:#243020;--on-deep:#0f1a0c;--bar:#9bc46a;--cmp:#f1f4ea;--swap:#e8ae45;--pivot:#e0715a;--sorted:#3c7a62;--code:#14180f;--hl:#3d3718}}
+:root[data-theme="dark"]{--bg:#10130d;--surface:#1a1e15;--ink:#edf1e6;--muted:#a0aa97;--line:#2d3427;--bamboo:#93c266;--deep:#6fae5d;--soft:#243020;--on-deep:#0f1a0c;--bar:#9bc46a;--cmp:#f1f4ea;--swap:#e8ae45;--pivot:#e0715a;--sorted:#3c7a62;--code:#14180f;--hl:#3d3718}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px 40px}button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--bamboo);outline-offset:2px}
+.brand{display:flex;align-items:center;gap:14px;padding:22px 0 8px}
+.pandabox{width:60px;height:60px;border-radius:50%;background:#dfeacd;flex:none;display:grid;place-items:center}.pandabox svg{width:52px;height:52px}
+h1{margin:0;font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.1}.sub{margin:2px 0 0;color:var(--muted)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:12px 0 6px}
+.tab{flex:none;border:1.5px solid var(--line);background:var(--surface);padding:9px 16px;border-radius:999px;font-weight:600}
+.tab[aria-selected=true]{background:var(--deep);border-color:var(--deep);color:var(--on-deep)}
+.lab{display:grid;gap:18px;margin-top:12px}@media(min-width:980px){.lab{grid-template-columns:1.4fr 1fr;align-items:start}}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:18px;padding:18px}
+h2{margin:0 0 4px;font-size:1.3rem}h3{margin:12px 0 6px}
+.narr{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.bubble{flex:1;background:var(--soft);border-radius:14px;padding:10px 14px;min-height:64px;display:flex;align-items:center;font-weight:600}
+.stage{height:260px;display:flex;gap:5px;padding:24px 6px 0;border-bottom:4px solid var(--ink)}
+.col{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.val{font-size:.75rem;font-weight:700;margin-bottom:2px}.stage.nl .val{display:none}
+.stalk{width:100%;background:var(--bar);border-radius:8px 8px 3px 3px;transition:height .2s,background-color .15s;background-image:repeating-linear-gradient(to top,transparent 0 30px,rgba(0,0,0,.2) 30px 33px)}
+.col.sorted .stalk{background-color:var(--sorted)}.col.cmp .stalk{background-color:var(--cmp)}.col.pivot .stalk{background-color:var(--pivot)}.col.swap .stalk{background-color:var(--swap)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:10px 0 0;padding:0;list-style:none;font-size:.85rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px}
+.controls,.row{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin-top:14px}
+.btn{border:1.5px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 14px;font-weight:600}
+.btn.primary{background:var(--deep);border-color:var(--deep);color:var(--on-deep);min-width:92px}.btn:disabled{opacity:.45}
+label{font-size:.9rem;color:var(--muted);display:flex;align-items:center;gap:8px}input[type=range]{accent-color:var(--deep)}
+#scrub{width:100%;margin-top:14px}
+.own{display:flex;gap:8px;flex:1;min-width:240px}.own input{flex:1;min-width:0;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:8px 12px;font:inherit}
+.note{margin:6px 0 0;font-size:.85rem;color:var(--pivot);min-height:1.2em}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.stat{background:var(--soft);border-radius:12px;padding:8px 10px}.stat b{display:block;font-size:1.4rem}.stat span{font-size:.8rem;color:var(--muted)}
+.code{background:var(--code);border:1.5px solid var(--line);border-radius:12px;padding:8px 0;overflow-x:auto;font-family:var(--mono);font-size:.84rem;margin:0;list-style:none}
+.code li{white-space:pre;padding:1px 12px}.code li.on{background:var(--hl)}
+.info{margin-top:18px;display:grid;gap:18px}@media(min-width:800px){.info{grid-template-columns:1.2fr 1fr}}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.fact{border:1.5px solid var(--line);border-radius:12px;padding:8px 10px}
+.fact span{display:block;font-size:.8rem;color:var(--muted)}.fact b{font-family:var(--mono);font-size:.95rem}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:560px;font-size:.92rem}
+th,td{text-align:left;padding:9px 10px;border-bottom:1.5px solid var(--line)}th{color:var(--muted);font-size:.85rem}td:first-child{font-weight:700}
+tbody tr{cursor:pointer}tbody tr:hover td,tr.me td{background:var(--soft)}
+footer{padding:22px 0;color:var(--muted);font-size:.9rem}
+.hero{text-align:center;padding:36px 0 6px}.hero .pandabox{width:96px;height:96px;margin:0 auto 10px}.hero .pandabox svg{width:84px;height:84px}
+.hcards{display:grid;gap:18px;margin:22px 0;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.hc{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:28px;text-align:left;transition:transform .2s,border-color .2s}.hc:hover{transform:translateY(-4px);border-color:var(--bamboo)}.hc h2{font-size:1.5rem}.hc p{color:var(--muted);margin:6px 0 0}
+.cells{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0;min-height:72px}
+.cell{min-width:58px;padding:8px 6px;border:2px solid var(--line);border-radius:10px;text-align:center;background:var(--soft);transition:all .2s}.cell b{display:block;font-size:1.05rem;min-height:1.5em}.cell small{display:block;font-size:.7rem;color:var(--muted);font-family:var(--mono)}
+.cell.hi{background:var(--swap);color:#1b1e19;border-color:var(--ink)}.cell.hi small{color:#1b1e19}.cell.ok{background:var(--sorted);color:#fff}.cell.ok small{color:#fff}.cell.no{opacity:.35}.cell.cmp{background:var(--cmp);color:var(--bg)}.cell.cmp small{color:var(--bg)}.cell.mid{background:var(--pivot);color:#fff}.cell.mid small{color:#fff}.cell.empty{border-style:dashed;background:none}
+#ain label{font-size:.9rem}#ain input,#ain select{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:10px;padding:6px 10px;font:inherit}
+#alog{margin:0;padding-left:20px;max-height:260px;overflow:auto}#alog li{margin-bottom:4px}
+.status-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:.8rem;font-weight:600;margin-bottom:12px;border:1px solid var(--line);background:var(--surface)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#999}
+.status-dot.online{background:#2f6a3a}
+.status-dot.local{background:#e0a032}
+.api-badge{background:var(--soft);color:var(--deep);font-size:.75rem;padding:2px 6px;border-radius:6px;font-family:var(--mono);margin-left:8px}
+</style>
+</head>
+<body>
+<div class="wrap" id="home">
+  <div class="hero">
+    <div class="status-pill" id="backendStatus"><span class="status-dot" id="statusDot"></span><span id="statusText">Checking Node.js Backend API...</span></div>
+    <div class="pandabox" aria-hidden="true"><svg class="pd" viewBox="0 0 100 100"></svg></div>
+    <h1>Panda DSA Lab</h1>
+    <p class="sub">Interactive DSA simulations powered by our Node.js REST API backend.</p>
+  </div>
+  <div class="hcards">
+    <button class="hc" onclick="go('sort')">
+      <h2>🐼 Panda Sorting</h2>
+      <p>Seven sorting algorithms climbing the bamboo, with code, counters, and REST API traces.</p>
+    </button>
+    <button class="hc" onclick="go('arr')">
+      <h2>🐼 Panda Array</h2>
+      <p>Address calculation, insertion and deletion, linear search and binary search.</p>
+    </button>
+    <button class="hc" onclick="go('bench')">
+      <h2>⚡ Server Benchmark</h2>
+      <p>Run real algorithmic benchmarks on the backend comparing all 7 algorithms up to 5,000 elements.</p>
+    </button>
+  </div>
+</div>
+
+<!-- SORT VIEW -->
+<div class="wrap" id="sortv" hidden>
+  <button class="btn" onclick="go('home')" style="margin-top:14px">← Home</button>
+  <div class="brand">
+    <div class="pandabox" aria-hidden="true"><svg viewBox="0 0 100 100" id="p1"></svg></div>
+    <div>
+      <h1>Sorting Panda <span class="api-badge" id="sortModeBadge">API MODE</span></h1>
+      <p class="sub">Data Structures and Algorithms Lab · watch seven sorting algorithms climb the bamboo, one step at a time.</p>
+    </div>
+  </div>
+  <nav class="tabs" role="tablist" id="tabs" aria-label="Sorting algorithms"></nav>
+  <section class="lab">
+    <div class="card">
+      <div class="narr"><div class="pandabox" aria-hidden="true"><svg viewBox="0 0 100 100" id="p2"></svg></div><div class="bubble" id="msg" aria-live="polite"></div></div>
+      <div class="stage" id="stage" role="img" aria-label="Array shown as bamboo stalks"></div>
+      <ul class="legend"><li><i style="background:var(--bar)"></i>Waiting</li><li><i style="background:var(--cmp)"></i>Comparing</li><li><i style="background:var(--swap)"></i>Moving or writing</li><li><i style="background:var(--pivot)"></i>Pivot</li><li><i style="background:var(--sorted)"></i>In final place</li></ul>
+      <input type="range" id="scrub" min="0" max="0" value="0" aria-label="Step position">
+      <div class="controls"><button class="btn" id="back">Back</button><button class="btn primary" id="play">Play</button><button class="btn" id="next">Next</button><button class="btn" id="reset">Restart</button></div>
+      <div class="row"><label>Speed <input type="range" id="speed" min="1" max="10" value="6"></label>
+      <label>Stalks <input type="range" id="size" min="4" max="24" value="12"> <span id="so">12</span></label><button class="btn" id="shuf">New random array</button></div>
+      <div class="row"><div class="own"><input id="custom" placeholder="Your own numbers, e.g. 38, 27, 43, 3, 9, 82, 10" aria-label="Your own numbers"><button class="btn" id="useOwn">Use these</button></div></div>
+      <p class="note" id="note" role="status"></p>
+    </div>
+    <aside class="card">
+      <div class="stats"><div class="stat"><b id="sS">0</b><span>Step</span></div><div class="stat"><b id="sC">0</b><span>Comparisons</span></div><div class="stat"><b id="sM">0</b><span>Moves and writes</span></div></div>
+      <ol class="code" id="code" aria-label="Algorithm"></ol>
+    </aside>
+  </section>
+  <section class="info">
+    <div class="card"><h2 id="iN"></h2><p id="iT" style="color:var(--muted);margin:0 0 10px"></p><p id="iI"></p><h3>When to use it</h3><p id="iW"></p></div>
+    <div class="card"><h3 style="margin-top:0">Complexity</h3><div class="facts" id="iF"></div></div>
+  </section>
+  <section class="card" style="margin-top:18px"><h2>All seven side by side</h2><p style="color:var(--muted);margin:0 0 8px">Click a row to switch to that sort.</p>
+    <div class="tw"><table><thead><tr><th>Sort</th><th>Best</th><th>Average</th><th>Worst</th><th>Extra space</th><th>Stable</th></tr></thead><tbody id="cmp"></tbody></table></div>
+  </section>
+  <footer>Sorting Panda · Full-Stack DSA Lab with Node.js REST API Backend.</footer>
+</div>
+
+<!-- ARRAY VIEW -->
+<div class="wrap" id="arrv" hidden>
+  <button class="btn" onclick="go('home')" style="margin-top:14px">← Home</button>
+  <div class="brand">
+    <div class="pandabox" aria-hidden="true"><svg class="pd" viewBox="0 0 100 100"></svg></div>
+    <div>
+      <h1>Panda Array <span class="api-badge" id="arrModeBadge">API MODE</span></h1>
+      <p class="sub">Memory addresses, inserting, deleting and searching.</p>
+    </div>
+  </div>
+  <nav class="tabs" id="atabs" aria-label="Array modules"></nav>
+  <section class="lab">
+    <div class="card">
+      <div class="row" id="ain" style="margin-top:0"></div><p class="note" id="anote" role="status"></p>
+      <div class="narr"><div class="pandabox" aria-hidden="true"><svg class="pd" viewBox="0 0 100 100"></svg></div><div class="bubble" id="amsg" aria-live="polite"></div></div>
+      <div class="cells" id="cells"></div>
+      <input type="range" id="ascrub" min="0" max="0" value="0" aria-label="Step position" style="width:100%">
+      <div class="controls"><button class="btn" id="aback">Previous</button><button class="btn primary" id="aplay">Play</button><button class="btn" id="anext">Next Step</button><button class="btn" id="areset">Reset</button></div>
+    </div>
+    <aside class="card"><h2 id="an"></h2><p id="ah"></p><div class="facts" id="af"></div><h3>Steps so far</h3><ol id="alog"></ol></aside>
+  </section>
+</div>
+
+<!-- BENCHMARK VIEW -->
+<div class="wrap" id="benchv" hidden>
+  <button class="btn" onclick="go('home')" style="margin-top:14px">← Home</button>
+  <div class="brand">
+    <div class="pandabox" aria-hidden="true"><svg class="pd" viewBox="0 0 100 100"></svg></div>
+    <div><h1>Panda Server Benchmark</h1><p class="sub">Measure real execution time and operation counts computed on the backend.</p></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <div class="row" style="margin-top:0">
+      <label>Dataset Size:
+        <select id="benchSize">
+          <option value="100">100 elements</option>
+          <option value="500" selected>500 elements</option>
+          <option value="1000">1,000 elements</option>
+          <option value="2500">2,500 elements</option>
+          <option value="5000">5,000 elements</option>
+        </select>
+      </label>
+      <label>Distribution:
+        <select id="benchType">
+          <option value="random">Random numbers</option>
+          <option value="nearly_sorted">Nearly sorted</option>
+          <option value="reversed">Reversed order</option>
+          <option value="sorted">Already sorted</option>
+        </select>
+      </label>
+      <button class="btn primary" id="runBenchBtn" onclick="runBenchmark()">Run Benchmark on Backend</button>
+    </div>
+    <div id="benchResult" style="margin-top:18px"></div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const PANDA='<circle cx="20" cy="22" r="14" fill="#1b1e19"/><circle cx="80" cy="22" r="14" fill="#1b1e19"/><circle cx="50" cy="55" r="38" fill="#fff" stroke="#1b1e19" stroke-width="2.5"/><ellipse cx="34" cy="50" rx="9" ry="12" transform="rotate(20 34 50)" fill="#1b1e19"/><ellipse cx="66" cy="50" rx="9" ry="12" transform="rotate(-20 66 50)" fill="#1b1e19"/><circle cx="35" cy="49" r="3.6" fill="#fff"/><circle cx="65" cy="49" r="3.6" fill="#fff"/><ellipse cx="50" cy="63" rx="6" ry="4.5" fill="#1b1e19"/><path d="M43 70 Q50 76 57 70" fill="none" stroke="#1b1e19" stroke-width="2.5" stroke-linecap="round"/>';
+$('p1').innerHTML=$('p2').innerHTML=PANDA;
+document.querySelectorAll('.pd').forEach(e=>e.innerHTML=PANDA);
+
+let backendConnected = false;
+const API_BASE = (window.location.protocol === 'file:' || !window.location.origin || window.location.origin === 'null')
+  ? 'http://localhost:3000'
+  : window.location.origin;
+
+async function checkBackend() {
+  try {
+    const res = await fetch(`${API_BASE}/api/health`);
+    if (res.ok) {
+      const data = await res.json();
+      backendConnected = true;
+      $('statusDot').className = 'status-dot online';
+      $('statusText').textContent = `🟢 Backend Online (${data.app}) · REST API Active`;
+      $('sortModeBadge').textContent = 'REST API Connected';
+      $('arrModeBadge').textContent = 'REST API Connected';
+      return;
+    }
+  } catch (e) {
+    // offline or local file
+  }
+  backendConnected = false;
+  $('statusDot').className = 'status-dot local';
+  $('statusText').textContent = '🟡 Local Simulation Mode (Backend Offline or file://)';
+  $('sortModeBadge').textContent = 'Local Simulation';
+  $('arrModeBadge').textContent = 'Local Simulation';
+}
+checkBackend();
+
+function mk(arr){const R={a:arr.slice(),steps:[],sorted:new Set(),comps:0,moves:0};
+ R.rec=(msg,line,o={})=>R.steps.push({a:R.a.slice(),msg,line,comps:R.comps,moves:R.moves,sorted:[...R.sorted],cmp:o.cmp||[],swp:o.swp||[],pivot:o.pivot??-1});
+ R.finish=(line,x)=>{R.a.forEach((_,i)=>R.sorted.add(i));R.rec('Sorted! '+(x||'Every stalk is in its final place.'),line);return R.steps};
+ return R}
+const G={};
+G.selection=arr=>{const R=mk(arr),a=R.a,n=a.length;R.rec('Start. Find the smallest stalk, then the next smallest, and so on.',0);
+ for(let i=0;i<n-1;i++){let m=i;R.rec(`Round ${i+1}: assume ${a[i]} is the smallest.`,1,{pivot:m});
+  for(let j=i+1;j<n;j++){R.comps++;R.rec(`Is ${a[j]} smaller than the minimum ${a[m]}?`,3,{cmp:[j],pivot:m});
+   if(a[j]<a[m]){m=j;R.rec(`Yes. ${a[j]} is the new minimum.`,4,{pivot:m})}}
+  if(m!==i){[a[i],a[m]]=[a[m],a[i]];R.moves++;R.sorted.add(i);R.rec(`Swap ${a[i]} into position ${i}.`,5,{swp:[i,m]})}
+  else{R.sorted.add(i);R.rec(`${a[i]} is already in place.`,5)}}
+ return R.finish(5)};
+G.bubble=arr=>{const R=mk(arr),a=R.a,n=a.length;R.rec('Start. Neighbours are compared and swapped when out of order.',0);
+ for(let i=0;i<n-1;i++){let sw=false;
+  for(let j=0;j<n-i-1;j++){R.comps++;R.rec(`Compare ${a[j]} and ${a[j+1]}.`,2,{cmp:[j,j+1]});
+   if(a[j]>a[j+1]){[a[j],a[j+1]]=[a[j+1],a[j]];R.moves++;sw=true;R.rec('Out of order, so they swap.',3,{swp:[j,j+1]})}}
+  R.sorted.add(n-1-i);
+  if(!sw)return R.finish(4,'A pass with no swaps means we can stop early.');
+  R.rec(`${a[n-1-i]} has bubbled to its final place.`,1)}
+ return R.finish(4)};
+G.insertion=arr=>{const R=mk(arr),a=R.a,n=a.length;R.sorted.add(0);R.rec('One stalk alone is sorted. Grow the sorted part to the right.',0);
+ for(let i=1;i<n;i++){const k=a[i];R.rec(`Pick up ${k} as the key.`,1,{cmp:[i]});let j=i-1;
+  while(j>=0){R.comps++;if(a[j]>k){R.rec(`${a[j]} is bigger than ${k}, so it shifts right.`,2,{cmp:[j]});a[j+1]=a[j];R.moves++;R.rec(`${a[j]} moves to position ${j+1}.`,3,{swp:[j+1]});j--}
+   else{R.rec(`${a[j]} is not bigger than ${k}. Right spot found.`,2,{cmp:[j]});break}}
+  a[j+1]=k;R.moves++;R.sorted.add(i);R.rec(`Drop ${k} into position ${j+1}.`,4,{swp:[j+1]})}
+ return R.finish(4)};
+G.quick=arr=>{const R=mk(arr),a=R.a;R.rec('Start. Pick a pivot, put smaller stalks on its left, then sort each side.',0);
+ const q=(lo,hi)=>{if(lo>hi)return;if(lo===hi){R.sorted.add(lo);R.rec(`${a[lo]} is alone, so it is in place.`,0);return}
+  const p=a[hi];let i=lo-1;R.rec(`Pivot is ${p} (last of positions ${lo} to ${hi}).`,1,{pivot:hi});
+  for(let j=lo;j<hi;j++){R.comps++;R.rec(`Is ${a[j]} smaller than pivot ${p}?`,3,{cmp:[j],pivot:hi});
+   if(a[j]<p){i++;if(i!==j){[a[i],a[j]]=[a[j],a[i]];R.moves++;R.rec(`Yes. Move ${a[i]} to the left side.`,4,{swp:[i,j],pivot:hi})}}}
+  [a[i+1],a[hi]]=[a[hi],a[i+1]];R.moves++;R.sorted.add(i+1);R.rec(`Place pivot ${p} at position ${i+1}.`,5,{swp:[i+1,hi]});
+  q(lo,i);q(i+2,hi)};
+ q(0,a.length-1);return R.finish(6)};
+G.merge=arr=>{const R=mk(arr),a=R.a;R.rec('Start. Split in halves, sort each half, then merge them.',0);
+ const ms=(l,r)=>{if(l>=r)return;const m=(l+r)>>1;R.rec(`Split positions ${l} to ${r} at ${m}.`,1,{cmp:[l,r]});ms(l,m);ms(m+1,r);
+  const L=a.slice(l,m+1),Rt=a.slice(m+1,r+1);let i=0,j=0,k=l;
+  while(i<L.length&&j<Rt.length){R.comps++;R.rec(`Compare fronts ${L[i]} and ${Rt[j]}.`,3,{cmp:[l+i,m+1+j]});
+   a[k]=L[i]<=Rt[j]?L[i++]:Rt[j++];R.moves++;R.rec(`Write ${a[k]} to position ${k}.`,4,{swp:[k]});k++}
+  while(i<L.length){a[k]=L[i++];R.moves++;R.rec(`Copy leftover ${a[k]} to position ${k}.`,5,{swp:[k]});k++}
+  while(j<Rt.length){a[k]=Rt[j++];R.moves++;R.rec(`Copy leftover ${a[k]} to position ${k}.`,5,{swp:[k]});k++}};
+ ms(0,a.length-1);return R.finish(5)};
+G.heap=arr=>{const R=mk(arr),a=R.a,n=a.length;R.rec('Start. Build a max-heap, then keep moving the biggest stalk to the end.',0);
+ const sift=(i,sz)=>{for(;;){let b=i,l=2*i+1,r=l+1;
+  if(l<sz){R.comps++;R.rec(`Compare parent ${a[b]} with left child ${a[l]}.`,4,{cmp:[b,l]});if(a[l]>a[b])b=l}
+  if(r<sz){R.comps++;R.rec(`Compare ${a[b]} with right child ${a[r]}.`,4,{cmp:[b,r]});if(a[r]>a[b])b=r}
+  if(b===i)return;[a[i],a[b]]=[a[b],a[i]];R.moves++;R.rec(`Swap parent down to position ${b}.`,5,{swp:[i,b]});i=b}};
+ for(let i=(n>>1)-1;i>=0;i--)sift(i,n);
+ for(let e=n-1;e>0;e--){[a[0],a[e]]=[a[e],a[0]];R.moves++;R.sorted.add(e);R.rec(`Move the largest, ${a[e]}, to position ${e}.`,2,{swp:[0,e]});sift(0,e)}
+ return R.finish(3)};
+G.radix=arr=>{const R=mk(arr),a=R.a,mx=Math.max(...a);R.rec('Start. Sort by the ones digit, then tens, then hundreds. No comparisons needed.',0);
+ for(let e=1;Math.floor(mx/e)>0;e*=10){R.rec(`Bucket every number by its digit at place ${e}.`,1);
+  const out=[];for(let d=0;d<10;d++)a.forEach(v=>{if(Math.floor(v/e)%10===d)out.push(v)});
+  out.forEach((v,i)=>{a[i]=v;R.moves++;R.rec(`Collect ${v} (digit ${Math.floor(v/e)%10}) into position ${i}.`,2,{swp:[i]})});
+  R.rec('That digit pass is done. On to the next digit.',3)}
+ return R.finish(3)};
+
+const ALGOS=[
+{k:'selection',n:'Selection',b:'O(n²)',av:'O(n²)',w:'O(n²)',sp:'O(1)',st:'No',tag:'Pick the smallest, put it first.',idea:'Repeatedly scan the unsorted part for the smallest value and swap it to the front of that part.',when:'Tiny lists, or when writes are expensive: it does at most n−1 swaps.',code:['for i = 0 to n-2','  min = i','  for j = i+1 to n-1','    if a[j] < a[min]','      min = j','  swap(a[i], a[min])']},
+{k:'bubble',n:'Bubble',b:'O(n)',av:'O(n²)',w:'O(n²)',sp:'O(1)',st:'Yes',tag:'Big stalks float to the right.',idea:'Compare neighbours and swap them when out of order. Each pass settles the largest remaining value at the end.',when:'Teaching, and nearly sorted data with the early-exit check.',code:['repeat n-1 times','  for j = 0 to n-i-2','    if a[j] > a[j+1]','      swap(a[j], a[j+1])','  stop if no swaps']},
+{k:'insertion',n:'Insertion',b:'O(n)',av:'O(n²)',w:'O(n²)',sp:'O(1)',st:'Yes',tag:'Sort like a hand of cards.',idea:'Take the next value as a key and slide larger sorted values right until the key fits.',when:'Small or nearly sorted lists. Many libraries use it for small chunks.',code:['for i = 1 to n-1','  key = a[i]','  while j >= 0 and a[j] > key','    a[j+1] = a[j]','  a[j+1] = key']},
+{k:'quick',n:'Quick',b:'O(n log n)',av:'O(n log n)',w:'O(n²)',sp:'O(log n)',st:'No',tag:'Partition around a pivot.',idea:'Choose a pivot, move smaller values left and larger right, fix the pivot in place, then recurse on both sides.',when:'General purpose in memory. Worst case happens on bad pivots, such as sorted input with a last-element pivot.',code:['quick(lo, hi)','  pivot = a[hi]','  for j = lo to hi-1','    if a[j] < pivot','      swap into left side','  put pivot in place','  quick both sides']},
+{k:'merge',n:'Merge',b:'O(n log n)',av:'O(n log n)',w:'O(n log n)',sp:'O(n)',st:'Yes',tag:'Divide, sort, merge.',idea:'Split the array in half until single items remain, then merge sorted halves by repeatedly taking the smaller front value.',when:'When you need guaranteed O(n log n) and stability, or are sorting linked lists and external data.',code:['mergeSort(l, r)','  mid = (l+r)/2','  sort both halves','  compare fronts of halves','  write the smaller','  copy leftovers']},
+{k:'heap',n:'Heap',b:'O(n log n)',av:'O(n log n)',w:'O(n log n)',sp:'O(1)',st:'No',tag:'Use a max-heap as a sorting machine.',idea:'Build a max-heap, then repeatedly swap the root with the last heap item and sift the new root down.',when:'Guaranteed O(n log n) with no extra memory.',code:['build max-heap','for e = n-1 down to 1','  swap(a[0], a[e])','  shrink heap by one','  compare children','  sift down']},
+{k:'radix',n:'Radix',b:'O(d(n+k))',av:'O(d(n+k))',w:'O(d(n+k))',sp:'O(n+k)',st:'Yes',tag:'Sort digit by digit.',idea:'Use a stable bucket pass for each digit, from least to most significant. Values never get compared to each other.',when:'Fixed-width integers or strings, when d is small. Needs non-negative integers here.',code:['for each digit place','  bucket by that digit','  collect in bucket order','  repeat for next digit']}];
+
+let cur=0,arr=[],steps=[],pos=0,timer=null;
+const tabs=$('tabs');
+ALGOS.forEach((s,i)=>{const b=document.createElement('button');b.className='tab';b.role='tab';b.textContent=s.n+' sort';b.onclick=()=>pick(i);tabs.appendChild(b)});
+$('cmp').innerHTML=ALGOS.map((s,i)=>`<tr data-i="${i}"><td>${s.n}</td><td>${s.b}</td><td>${s.av}</td><td>${s.w}</td><td>${s.sp}</td><td>${s.st}</td></tr>`).join('');
+$('cmp').onclick=e=>{const r=e.target.closest('tr');if(r)pick(+r.dataset.i)};
+
+function rand(){const n=+$('size').value;return Array.from({length:n},()=>5+Math.floor(Math.random()*95))}
+
+async function build(){
+  stop();
+  const algoKey = ALGOS[cur].k;
+  if (backendConnected) {
+    try {
+      const res = await fetch(`${API_BASE}/api/sort/simulate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ algorithm: algoKey, array: arr })
+      });
+      if (res.ok) {
+        const json = await res.json();
+        steps = json.data.steps;
+        pos = 0;
+        $('scrub').max = steps.length - 1;
+        draw();
+        return;
+      }
+    } catch (e) {
+      // fallback to local
+    }
+  }
+  steps = G[algoKey](arr);
+  pos = 0;
+  $('scrub').max = steps.length - 1;
+  draw();
+}
+
+function pick(i){cur=i;const s=ALGOS[i];
+ [...tabs.children].forEach((t,j)=>t.setAttribute('aria-selected',j===i));
+ $('code').innerHTML=s.code.map((l,j)=>`<li data-l="${j}">${l.replace(/</g,'&lt;')}</li>`).join('');
+ $('iN').textContent=s.n+' sort';$('iT').textContent=s.tag;$('iI').textContent=s.idea;$('iW').textContent=s.when;
+ $('iF').innerHTML=[['Best',s.b],['Average',s.av],['Worst',s.w],['Extra space',s.sp],['Stable',s.st]].map(f=>`<div class="fact"><span>${f[0]}</span><b>${f[1]}</b></div>`).join('');
+ [...$('cmp').children].forEach((r,j)=>r.classList.toggle('me',j===i));
+ build()}
+
+function draw(){const s=steps[pos],mx=Math.max(...s.a),st=$('stage');
+ st.classList.toggle('nl',s.a.length>16);
+ st.innerHTML=s.a.map((v,i)=>{let c='col';if(s.sorted.includes(i))c+=' sorted';if(s.cmp.includes(i))c+=' cmp';if(s.pivot===i)c+=' pivot';if(s.swp.includes(i))c+=' swap';
+  return `<div class="${c}"><span class="val">${v}</span><div class="stalk" style="height:${Math.max(4,v/mx*100)}%"></div></div>`}).join('');
+ $('msg').textContent=s.msg;$('sS').textContent=pos;$('sC').textContent=s.comps;$('sM').textContent=s.moves;
+ $('scrub').value=pos;$('back').disabled=pos===0;$('next').disabled=pos===steps.length-1;
+ [...$('code').children].forEach((li,j)=>li.classList.toggle('on',j===s.line));
+ $('play').textContent=timer?'Pause':(pos===steps.length-1?'Replay':'Play')}
+
+function stop(){clearTimeout(timer);timer=null}
+function tick(){if(pos>=steps.length-1){stop();draw();return}pos++;draw();timer=setTimeout(tick,1100-$('speed').value*100)}
+$('play').onclick=()=>{if(timer){stop();draw();return}if(pos>=steps.length-1)pos=0;timer=setTimeout(tick,0);draw()};
+$('next').onclick=()=>{stop();pos=Math.min(pos+1,steps.length-1);draw()};
+$('back').onclick=()=>{stop();pos=Math.max(pos-1,0);draw()};
+$('reset').onclick=()=>{stop();pos=0;draw()};
+$('scrub').oninput=e=>{stop();pos=+e.target.value;draw()};
+$('shuf').onclick=()=>{arr=rand();$('note').textContent='';build()};
+$('size').oninput=e=>{$('so').textContent=e.target.value;arr=rand();build()};
+$('useOwn').onclick=()=>{const v=$('custom').value.split(/[\s,]+/).filter(Boolean).map(Number);
+ if(v.length<2||v.length>24||v.some(x=>!Number.isInteger(x)||x<0||x>999)){$('note').textContent='Enter 2 to 24 whole numbers between 0 and 999, separated by commas.';return}
+ $('note').textContent='';arr=v;$('size').value=v.length;$('so').textContent=v.length;build()};
+arr=rand();pick(0);
+
+function go(v){
+  $('home').hidden=v!=='home';
+  $('sortv').hidden=v!=='sort';
+  $('arrv').hidden=v!=='arr';
+  $('benchv').hidden=v!=='bench';
+  stop();stopA();scrollTo(0,0);
+  if(v==='sort')draw();
+  if(v==='arr'&&!A.init){A.init=1;pickA(0)}
+  if(v==='bench'&&backendConnected)runBenchmark();
+}
+
+const A={steps:[],pos:0,timer:null,cur:0};
+const nums=s=>{const v=String(s).split(/[\s,]+/).filter(Boolean).map(Number);return v.length>=1&&v.length<=12&&v.every(Number.isInteger)?v:null};
+const bx=(b,cls,msg)=>({cells:b.map((x,k)=>({t:x===null?'':x,s:'['+k+']',c:(x===null?'empty ':'')+(cls[k]||'')})),msg});
+const BAD='Enter 1 to 12 whole numbers separated by commas, and whole-number values.';
+
+const MS=[
+{n:'Array Address Calculation',endpoint:'/api/array/address',how:'A 1D array stores elements one after another in memory. Multiply the index by the element size and add it to the base address to find any element instantly.',t:'O(1)',s:'O(1)',f:[{id:'base',l:'Base address',v:1000},{id:'size',l:'Element size (bytes)',v:4},{id:'i',l:'Index i',v:3},{id:'n',l:'Array length',v:8}],
+gen(v){const B=+v.base,Z=+v.size,i=+v.i,n=+v.n;if(![B,Z,i,n].every(Number.isInteger)||B<0||Z<1||n<1||n>12||i<0||i>=n)return'Use whole numbers: size at least 1, length 1 to 12, and index from 0 to length−1.';
+const c=(h)=>Array.from({length:n},(_,k)=>({t:'A['+k+']',s:B+k*Z,c:h&&k===i?h:''}));
+return[{cells:c(),msg:`Memory is a row of boxes. Each element uses ${Z} bytes, starting at ${B}.`},
+{cells:c('hi'),msg:`We want A[${i}]. Formula: Address(A[i]) = Base Address + (i × Size of Element).`},
+{cells:c('hi'),msg:`Substitute: ${B} + (${i} × ${Z}).`},
+{cells:c('hi'),msg:`Multiply: ${i} × ${Z} = ${i*Z} bytes from the start.`},
+{cells:c('ok'),msg:`Add: ${B} + ${i*Z} = ${B+i*Z} (hex 0x${(B+i*Z).toString(16).toUpperCase()}). A[${i}] lives there.`}]}},
+{n:'Array Insertion and Deletion',endpoint:'/api/array/insert-delete',how:'Inserting shifts every element at or after the position one place right. Deleting shifts the elements after it one place left. Each shift is one operation.',t:'O(n)',s:'O(1)',f:[{id:'mode',l:'Operation',o:['Insert','Delete']},{id:'arr',l:'Array',v:'10, 20, 30, 40, 50',w:20},{id:'val',l:'Value to insert',v:25},{id:'pos',l:'Position (index)',v:2}],
+gen(v){const a=nums(v.arr),x=+v.val,p=+v.pos,n=a&&a.length;if(!a||!Number.isInteger(x)||!Number.isInteger(p))return BAD;const st=[];let ops=0;
+if(v.mode==='Insert'){if(p<0||p>n||n>11)return'Position must be 0 to '+n+', and the array can hold at most 11 values before inserting.';const b=a.concat([null]);
+st.push(bx(b,{},`Array of ${n} with one free slot. Insert ${x} at index ${p}.`));
+for(let k=n-1;k>=p;k--){b[k+1]=b[k];b[k]=null;ops++;st.push(bx(b,{[k+1]:'hi'},`Shift ${b[k+1]} from index ${k} to ${k+1}. Operations: ${ops}.`))}
+b[p]=x;ops++;st.push(bx(b,{[p]:'ok'},`Place ${x} at index ${p}. Done with ${ops} operations (${ops-1} shifts and 1 write).`));return st}
+if(p<0||p>=n)return'Position must be 0 to '+(n-1)+'.';const b=a.slice();
+st.push(bx(b,{[p]:'mid'},`Delete ${b[p]} at index ${p}.`));const d=b[p];b[p]=null;ops++;st.push(bx(b,{[p]:'mid'},`Remove ${d}. This leaves a gap. Operations: ${ops}.`));
+for(let k=p;k<n-1;k++){b[k]=b[k+1];b[k+1]=null;ops++;st.push(bx(b,{[k]:'hi'},`Shift ${b[k]} left from index ${k+1} to ${k}. Operations: ${ops}.`))}
+st.push(bx(b.slice(0,n-1),{},`Done. ${d} deleted with ${ops} operations (1 removal and ${ops-1} shifts). New length: ${n-1}.`));return st}},
+{n:'Linear Search',endpoint:'/api/array/linear-search',how:'Check each element from left to right until one equals the target or the array ends. It works on any array, sorted or not.',t:'Best O(1), worst O(n)',s:'O(1)',f:[{id:'arr',l:'Array',v:'7, 3, 9, 1, 5, 8',w:20},{id:'t',l:'Target',v:5}],
+gen(v){const a=nums(v.arr),t=+v.t;if(!a||!Number.isInteger(t))return BAD;const st=[],mk=(cur,res)=>a.map((x,k)=>({t:x,s:'['+k+']',c:k===cur?res:(k<cur?'no':'')}));let c=0;
+st.push({cells:mk(-1),msg:`Look for ${t}, starting at index 0.`});
+for(let k=0;k<a.length;k++){c++;if(a[k]===t){st.push({cells:mk(k,'cmp'),msg:`Is ${a[k]} = ${t}? Comparisons: ${c}.`});st.push({cells:mk(k,'ok'),msg:`Match! Found ${t} at index ${k} (position ${k+1}) after ${c} comparisons.`});return st}
+st.push({cells:mk(k,'cmp'),msg:`Is ${a[k]} = ${t}? No. Comparisons: ${c}.`})}
+st.push({cells:a.map(x=>({t:x,s:'',c:'no'})),msg:`Element Not Found. ${t} is not in the array (${c} comparisons).`});return st}},
+{n:'Binary Search',endpoint:'/api/array/binary-search',how:'Binary Search needs a sorted array. Compare the target with the middle element and throw away the half that cannot contain it. Repeat on what is left.',t:'O(log n)',s:'O(1)',f:[{id:'arr',l:'Array',v:'9, 3, 7, 1, 5, 8',w:20},{id:'mode',l:'Input is',o:['Sort it for me','Already sorted']},{id:'t',l:'Target',v:7}],
+gen(v){let a=nums(v.arr),t=+v.t;if(!a||!Number.isInteger(t))return BAD;const sorted=v.mode==='Sort it for me';
+if(sorted)a=a.slice().sort((x,y)=>x-y);else if(a.some((x,i)=>i&&x<a[i-1]))return'This array is not sorted, and Binary Search needs a sorted one. Choose "Sort it for me" or enter ascending numbers.';
+let lo=0,hi=a.length-1,c=0;const st=[],S=(l,h,m,cls,msg)=>st.push({cells:a.map((x,k)=>({t:x,s:'['+k+']'+(k===l?' L':'')+(k===m?' M':'')+(k===h?' H':''),c:(k<l||k>h?'no ':'')+(cls[k]||'')})),msg});
+S(lo,hi,-1,{},(sorted?`Sorted for you: ${a.join(', ')}. `:'')+`Searching for ${t}. Low is 0 and High is ${hi}.`);
+while(lo<=hi){const m=(lo+hi)>>1;c++;
+if(a[m]===t){S(lo,hi,m,{[m]:'ok'},`Mid = ${m}, value ${a[m]} equals ${t}. Found at index ${m} (position ${m+1}) after ${c} comparisons.`);return st}
+if(a[m]<t){S(lo,hi,m,{[m]:'cmp'},`Mid = ${m}, value ${a[m]} < ${t}. Target is on the right, so Low becomes ${m+1}. Comparisons: ${c}.`);lo=m+1}
+else{S(lo,hi,m,{[m]:'cmp'},`Mid = ${m}, value ${a[m]} > ${t}. Target is on the left, so High becomes ${m-1}. Comparisons: ${c}.`);hi=m-1}}
+st.push({cells:a.map(x=>({t:x,s:'',c:'no'})),msg:`Low passed High, so the search space is empty. Element Not Found (${c} comparisons).`});return st}}];
+
+function pickA(i){A.cur=i;stopA();const m=MS[i];
+$('atabs').innerHTML=MS.map((x,j)=>`<button class="tab" role="tab" aria-selected="${j===i}" data-i="${j}">${x.n}</button>`).join('');
+$('ain').innerHTML=m.f.map(f=>`<label>${f.l} ${f.o?`<select id="f_${f.id}">${f.o.map(o=>`<option>${o}</option>`).join('')}</select>`:`<input id="f_${f.id}" value="${f.v}" size="${f.w||8}">`}</label>`).join('');
+$('an').textContent=m.n;$('ah').textContent=m.how;
+$('af').innerHTML=[['Time',m.t],['Space',m.s]].map(f=>`<div class="fact"><span>${f[0]} complexity</span><b>${f[1]}</b></div>`).join('');buildA()}
+
+async function buildA(){
+  stopA();
+  const m=MS[A.cur],v={};
+  m.f.forEach(f=>v[f.id]=$('f_'+f.id).value);
+
+  if (backendConnected && m.endpoint) {
+    try {
+      let payload = { ...v };
+      if (payload.arr) payload.arr = nums(payload.arr);
+      const res = await fetch(`${API_BASE}${m.endpoint}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (res.ok) {
+        const json = await res.json();
+        $('anote').textContent='';
+        A.steps = json.data.steps;
+        A.pos = 0;
+        $('ascrub').max = A.steps.length - 1;
+        drawA();
+        return;
+      }
+    } catch (e) {
+      // fallback to local
+    }
+  }
+
+  const r=m.gen(v);
+  if(typeof r==='string'){$('anote').textContent=r;A.steps=[];$('cells').innerHTML='';$('alog').innerHTML='';$('amsg').textContent='Fix the input above, then press Reset.';$('ascrub').max=0;return}
+  $('anote').textContent='';A.steps=r;A.pos=0;$('ascrub').max=r.length-1;drawA()
+}
+
+function drawA(){const s=A.steps[A.pos];if(!s)return;
+$('cells').innerHTML=s.cells.map(c=>`<div class="cell ${c.c}"><b>${c.t}</b><small>${c.s}</small></div>`).join('');
+$('amsg').textContent=s.msg;$('alog').innerHTML=A.steps.slice(0,A.pos+1).map(x=>`<li>${x.msg}</li>`).join('');
+$('ascrub').value=A.pos;$('aback').disabled=A.pos===0;$('anext').disabled=A.pos===A.steps.length-1;
+$('aplay').textContent=A.timer?'Pause':(A.pos===A.steps.length-1?'Replay':'Play')}
+
+function stopA(){clearTimeout(A.timer);A.timer=null}
+function tickA(){if(A.pos>=A.steps.length-1){stopA();drawA();return}A.pos++;drawA();A.timer=setTimeout(tickA,1000)}
+$('atabs').onclick=e=>{const b=e.target.closest('button');if(b)pickA(+b.dataset.i)};
+$('ain').onchange=buildA;$('ain').oninput=e=>{if(e.target.tagName==='INPUT')buildA()};
+$('aplay').onclick=()=>{if(!A.steps.length)return;if(A.timer){stopA();drawA();return}if(A.pos>=A.steps.length-1)A.pos=0;A.timer=setTimeout(tickA,0);drawA()};
+$('anext').onclick=()=>{stopA();A.pos=Math.min(A.pos+1,A.steps.length-1);drawA()};
+$('aback').onclick=()=>{stopA();A.pos=Math.max(A.pos-1,0);drawA()};
+$('areset').onclick=buildA;
+$('ascrub').oninput=e=>{stopA();A.pos=+e.target.value;drawA()};
+
+async function runBenchmark() {
+  const size = +$('benchSize').value;
+  const type = $('benchType').value;
+  const target = $('benchResult');
+  target.innerHTML = '<p>Running benchmark on backend server... ⏳</p>';
+  try {
+    const res = await fetch(`${API_BASE}/api/benchmark`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ size, type })
+    });
+    if (!res.ok) throw new Error('Backend error: ' + res.statusText);
+    const json = await res.json();
+    const list = json.data.results;
+    let html = `<h3>Benchmark Results (${size.toLocaleString()} elements, ${type.replace('_',' ')})</h3>`;
+    html += `<div class="tw"><table><thead><tr><th>Rank</th><th>Algorithm</th><th>Execution Time</th><th>Comparisons</th><th>Moves / Swaps</th></tr></thead><tbody>`;
+    list.forEach((r, idx) => {
+      const isWinner = idx === 0 ? ' style="font-weight:700; color:var(--deep);"' : '';
+      html += `<tr${isWinner}><td>#${idx + 1}</td><td>${r.algorithm.toUpperCase()}</td><td>${r.timeMs.toFixed(3)} ms</td><td>${r.comparisons.toLocaleString()}</td><td>${r.moves.toLocaleString()}</td></tr>`;
+    });
+    html += `</tbody></table></div>`;
+    target.innerHTML = html;
+  } catch (err) {
+    target.innerHTML = `<p style="color:var(--pivot)">Failed to connect to backend: ${err.message}. Ensure backend is running.</p>`;
+  }
+}
+
+go('home');
+</script>
+</body>
+</html>

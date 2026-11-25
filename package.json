@@ -1,0 +1,24 @@
+{
+  "name": "sorting-panda-backend",
+  "version": "1.0.0",
+  "description": "Backend API for Sorting Panda DSA Lab",
+  "main": "src/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "dsa",
+    "sorting",
+    "algorithms",
+    "arrays",
+    "education"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,472 @@
+[
+  {
+    "id": "mwweq5ck7kpk",
+    "timestamp": "2026-11-25T17:38:17.108Z",
+    "type": "sort",
+    "algorithm": "quick",
+    "arraySize": 5,
+    "totalSteps": 19,
+    "comparisons": 8,
+    "moves": 4,
+    "executionTimeMs": 0.195
+  },
+  {
+    "id": "mwweq5cn9kxj",
+    "timestamp": "2026-11-25T17:38:17.111Z",
+    "type": "array_address",
+    "inputs": {
+      "base": 1000,
+      "size": 4,
+      "index": 2,
+      "length": 5
+    },
+    "result": {
+      "address": 1008,
+      "hex": "0x3F0"
+    }
+  },
+  {
+    "id": "mwweq5cot5vd",
+    "timestamp": "2026-11-25T17:38:17.112Z",
+    "type": "array_linear_search",
+    "target": 25,
+    "found": true,
+    "comparisons": 3
+  },
+  {
+    "id": "mwweq5cqbnqu",
+    "timestamp": "2026-11-25T17:38:17.114Z",
+    "type": "benchmark",
+    "size": 50,
+    "inputType": "random",
+    "winner": "insertion",
+    "fastestTimeMs": 0.044
+  },
+  {
+    "id": "mwwet6l9xnfp",
+    "timestamp": "2026-11-25T17:40:38.685Z",
+    "type": "sort",
+    "algorithm": "quick",
+    "arraySize": 5,
+    "totalSteps": 19,
+    "comparisons": 8,
+    "moves": 4,
+    "executionTimeMs": 0.196
+  },
+  {
+    "id": "mwwet6lczzdb",
+    "timestamp": "2026-11-25T17:40:38.688Z",
+    "type": "array_address",
+    "inputs": {
+      "base": 1000,
+      "size": 4,
+      "index": 2,
+      "length": 5
+    },
+    "result": {
+      "address": 1008,
+      "hex": "0x3F0"
+    }
+  },
+  {
+    "id": "mwwet6ldljva",
+    "timestamp": "2026-11-25T17:40:38.689Z",
+    "type": "array_linear_search",
+    "target": 25,
+    "found": true,
+    "comparisons": 3
+  },
+  {
+    "id": "mwwet6lfyl5e",
+    "timestamp": "2026-11-25T17:40:38.691Z",
+    "type": "benchmark",
+    "size": 50,
+    "inputType": "random",
+    "winner": "insertion",
+    "fastestTimeMs": 0.055
+  },
+  {
+    "id": "mwwf1yrbr6gf",
+    "timestamp": "2026-11-25T17:47:28.442Z",
+    "type": "benchmark",
+    "size": 500,
+    "inputType": "random",
+    "winner": "merge",
+    "fastestTimeMs": 1.609
+  },
+  {
+    "id": "mwwf3tim5x1x",
+    "timestamp": "2026-11-25T17:48:54.958Z",
+    "type": "array_address",
+    "inputs": {
+      "base": 1000,
+      "size": 4,
+      "index": 3,
+      "length": 8
+    },
+    "result": {
+      "address": 1012,
+      "hex": "0x3F4"
+    }
+  },
+  {
+    "id": "mwwf3v4fp5jf",
+    "timestamp": "2026-11-25T17:48:57.039Z",
+    "type": "array_insert_delete",
+    "mode": "insert",
+    "totalOperations": 4
+  },
+  {
+    "id": "mwwf3vo1r90l",
+    "timestamp": "2026-11-25T17:48:57.745Z",
+    "type": "array_linear_search",
+    "target": 5,
+    "found": true,
+    "comparisons": 5
+  },
+  {
+    "id": "mwwf3vyqmnzs",
+    "timestamp": "2026-11-25T17:48:58.130Z",
+    "type": "array_binary_search",
+    "target": 7,
+    "found": true,
+    "comparisons": 3
+  },
+  {
+    "id": "mwwf3z29g1wt",
+    "timestamp": "2026-11-25T17:49:02.145Z",
+    "type": "sort",
+    "algorithm": "bubble",
+    "arraySize": 12,
+    "totalSteps": 45,
+    "comparisons": 30,
+    "moves": 11,
+    "executionTimeMs": 1.002
+  },
+  {
+    "id": "mwwf3zhdcu34",
+    "timestamp": "2026-11-25T17:49:02.689Z",
+    "type": "sort",
+    "algorithm": "insertion",
+    "arraySize": 12,
+    "totalSteps": 57,
+    "comparisons": 22,
+    "moves": 22,
+    "executionTimeMs": 0.593
+  },
+  {
+    "id": "mwwf3ztlooxz",
+    "timestamp": "2026-11-25T17:49:03.129Z",
+    "type": "sort",
+    "algorithm": "merge",
+    "arraySize": 12,
+    "totalSteps": 84,
+    "comparisons": 27,
+    "moves": 44,
+    "executionTimeMs": 0.795
+  },
+  {
+    "id": "mwwf40t5hidf",
+    "timestamp": "2026-11-25T17:49:04.409Z",
+    "type": "sort",
+    "algorithm": "heap",
+    "arraySize": 12,
+    "totalSteps": 92,
+    "comparisons": 53,
+    "moves": 37,
+    "executionTimeMs": 0.944
+  },
+  {
+    "id": "mwwf41i910b0",
+    "timestamp": "2026-11-25T17:49:05.313Z",
+    "type": "sort",
+    "algorithm": "radix",
+    "arraySize": 12,
+    "totalSteps": 30,
+    "comparisons": 0,
+    "moves": 24,
+    "executionTimeMs": 0.662
+  },
+  {
+    "id": "mwwf43a4zw7a",
+    "timestamp": "2026-11-25T17:49:07.612Z",
+    "type": "sort",
+    "algorithm": "quick",
+    "arraySize": 12,
+    "totalSteps": 62,
+    "comparisons": 38,
+    "moves": 10,
+    "executionTimeMs": 0.989
+  },
+  {
+    "id": "mwwf43j5g91h",
+    "timestamp": "2026-11-25T17:49:07.937Z",
+    "type": "sort",
+    "algorithm": "bubble",
+    "arraySize": 12,
+    "totalSteps": 45,
+    "comparisons": 30,
+    "moves": 11,
+    "executionTimeMs": 0.139
+  },
+  {
+    "id": "mwwf43qwl85g",
+    "timestamp": "2026-11-25T17:49:08.216Z",
+    "type": "sort",
+    "algorithm": "selection",
+    "arraySize": 12,
+    "totalSteps": 98,
+    "comparisons": 66,
+    "moves": 5,
+    "executionTimeMs": 0.358
+  },
+  {
+    "id": "mwwf44e028mp",
+    "timestamp": "2026-11-25T17:49:09.048Z",
+    "type": "sort",
+    "algorithm": "bubble",
+    "arraySize": 12,
+    "totalSteps": 45,
+    "comparisons": 30,
+    "moves": 11,
+    "executionTimeMs": 0.123
+  },
+  {
+    "id": "mwwf44qqr495",
+    "timestamp": "2026-11-25T17:49:09.506Z",
+    "type": "sort",
+    "algorithm": "insertion",
+    "arraySize": 12,
+    "totalSteps": 57,
+    "comparisons": 22,
+    "moves": 22,
+    "executionTimeMs": 0.15
+  },
+  {
+    "id": "mwwf452vhr3z",
+    "timestamp": "2026-11-25T17:49:09.943Z",
+    "type": "sort",
+    "algorithm": "merge",
+    "arraySize": 12,
+    "totalSteps": 84,
+    "comparisons": 27,
+    "moves": 44,
+    "executionTimeMs": 0.139
+  },
+  {
+    "id": "mwwf4720eggd",
+    "timestamp": "2026-11-25T17:49:12.504Z",
+    "type": "sort",
+    "algorithm": "selection",
+    "arraySize": 12,
+    "totalSteps": 98,
+    "comparisons": 66,
+    "moves": 5,
+    "executionTimeMs": 0.073
+  },
+  {
+    "id": "mwwfmmnnc746",
+    "timestamp": "2026-11-25T18:03:32.531Z",
+    "type": "sort",
+    "algorithm": "quick",
+    "arraySize": 5,
+    "totalSteps": 19,
+    "comparisons": 8,
+    "moves": 4,
+    "executionTimeMs": 0.202
+  },
+  {
+    "id": "mwwfmmnrmw1f",
+    "timestamp": "2026-11-25T18:03:32.535Z",
+    "type": "array_address",
+    "inputs": {
+      "base": 1000,
+      "size": 4,
+      "index": 2,
+      "length": 5
+    },
+    "result": {
+      "address": 1008,
+      "hex": "0x3F0"
+    }
+  },
+  {
+    "id": "mwwfmmnsmuk2",
+    "timestamp": "2026-11-25T18:03:32.536Z",
+    "type": "array_linear_search",
+    "target": 25,
+    "found": true,
+    "comparisons": 3
+  },
+  {
+    "id": "mwwfmmntv63b",
+    "timestamp": "2026-11-25T18:03:32.537Z",
+    "type": "benchmark",
+    "size": 50,
+    "inputType": "random",
+    "winner": "insertion",
+    "fastestTimeMs": 0.048
+  },
+  {
+    "id": "mwwfugpew5sf",
+    "timestamp": "2026-11-25T18:09:38.066Z",
+    "type": "sort",
+    "algorithm": "quick",
+    "arraySize": 5,
+    "totalSteps": 19,
+    "comparisons": 8,
+    "moves": 4,
+    "executionTimeMs": 0.243
+  },
+  {
+    "id": "mwwfugphyobn",
+    "timestamp": "2026-11-25T18:09:38.069Z",
+    "type": "array_address",
+    "inputs": {
+      "base": 1000,
+      "size": 4,
+      "index": 2,
+      "length": 5
+    },
+    "result": {
+      "address": 1008,
+      "hex": "0x3F0"
+    }
+  },
+  {
+    "id": "mwwfugpidpwl",
+    "timestamp": "2026-11-25T18:09:38.070Z",
+    "type": "array_linear_search",
+    "target": 25,
+    "found": true,
+    "comparisons": 3
+  },
+  {
+    "id": "mwwfugpjzddt",
+    "timestamp": "2026-11-25T18:09:38.071Z",
+    "type": "benchmark",
+    "size": 50,
+    "inputType": "random",
+    "winner": "insertion",
+    "fastestTimeMs": 0.039
+  },
+  {
+    "id": "mwwfugpl4m6t",
+    "timestamp": "2026-11-25T18:09:38.073Z",
+    "type": "sort",
+    "algorithm": "bubble",
+    "arraySize": 3,
+    "totalSteps": 8,
+    "comparisons": 3,
+    "moves": 2,
+    "executionTimeMs": 0.034
+  },
+  {
+    "id": "mwwfw4cp0jh7",
+    "timestamp": "2026-11-25T18:10:55.369Z",
+    "type": "sort",
+    "algorithm": "quick",
+    "arraySize": 5,
+    "totalSteps": 19,
+    "comparisons": 8,
+    "moves": 4,
+    "executionTimeMs": 0.206
+  },
+  {
+    "id": "mwwfw4cse5e5",
+    "timestamp": "2026-11-25T18:10:55.372Z",
+    "type": "array_address",
+    "inputs": {
+      "base": 1000,
+      "size": 4,
+      "index": 2,
+      "length": 5
+    },
+    "result": {
+      "address": 1008,
+      "hex": "0x3F0"
+    }
+  },
+  {
+    "id": "mwwfw4cup2du",
+    "timestamp": "2026-11-25T18:10:55.374Z",
+    "type": "array_linear_search",
+    "target": 25,
+    "found": true,
+    "comparisons": 3
+  },
+  {
+    "id": "mwwfw4cwkhxw",
+    "timestamp": "2026-11-25T18:10:55.376Z",
+    "type": "benchmark",
+    "size": 50,
+    "inputType": "random",
+    "winner": "insertion",
+    "fastestTimeMs": 0.043
+  },
+  {
+    "id": "mwwfw4cy48qd",
+    "timestamp": "2026-11-25T18:10:55.378Z",
+    "type": "sort",
+    "algorithm": "bubble",
+    "arraySize": 3,
+    "totalSteps": 8,
+    "comparisons": 3,
+    "moves": 2,
+    "executionTimeMs": 0.029
+  },
+  {
+    "id": "mwwfwq3873l5",
+    "timestamp": "2026-11-25T18:11:23.540Z",
+    "type": "sort",
+    "algorithm": "quick",
+    "arraySize": 5,
+    "totalSteps": 19,
+    "comparisons": 8,
+    "moves": 4,
+    "executionTimeMs": 0.293
+  },
+  {
+    "id": "mwwfwq3clsuo",
+    "timestamp": "2026-11-25T18:11:23.544Z",
+    "type": "array_address",
+    "inputs": {
+      "base": 1000,
+      "size": 4,
+      "index": 2,
+      "length": 5
+    },
+    "result": {
+      "address": 1008,
+      "hex": "0x3F0"
+    }
+  },
+  {
+    "id": "mwwfwq3d78k6",
+    "timestamp": "2026-11-25T18:11:23.545Z",
+    "type": "array_linear_search",
+    "target": 25,
+    "found": true,
+    "comparisons": 3
+  },
+  {
+    "id": "mwwfwq3fb9ww",
+    "timestamp": "2026-11-25T18:11:23.547Z",
+    "type": "benchmark",
+    "size": 50,
+    "inputType": "random",
+    "winner": "insertion",
+    "fastestTimeMs": 0.04
+  },
+  {
+    "id": "mwwfwq3ghgvv",
+    "timestamp": "2026-11-25T18:11:23.548Z",
+    "type": "sort",
+    "algorithm": "bubble",
+    "arraySize": 3,
+    "totalSteps": 8,
+    "comparisons": 3,
+    "moves": 2,
+    "executionTimeMs": 0.025
+  }
+]
